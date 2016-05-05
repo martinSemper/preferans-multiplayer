@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRHost", "SignalRHost\SignalRHost.csproj", "{6E361672-2CF9-415B-97E4-4809F3DF40A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preferans.Host", "SignalRHost\Preferans.Host.csproj", "{6E361672-2CF9-415B-97E4-4809F3DF40A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preferans.WebClient", "Preferans.WebClient\Preferans.WebClient.csproj", "{998EA5E8-670D-4F1F-8D5A-89FF8DFBBF82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preferans.GameService", "Preferans.GameService\Preferans.GameService.csproj", "{73BC485F-46E3-4A28-BDDD-8C29C2033C04}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preferans.Engine", "Preferans.Engine\Preferans.Engine.csproj", "{44E18A51-EA10-4C33-B469-28BE06C45D91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{6E361672-2CF9-415B-97E4-4809F3DF40A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E361672-2CF9-415B-97E4-4809F3DF40A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E361672-2CF9-415B-97E4-4809F3DF40A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{998EA5E8-670D-4F1F-8D5A-89FF8DFBBF82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{998EA5E8-670D-4F1F-8D5A-89FF8DFBBF82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{998EA5E8-670D-4F1F-8D5A-89FF8DFBBF82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{998EA5E8-670D-4F1F-8D5A-89FF8DFBBF82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73BC485F-46E3-4A28-BDDD-8C29C2033C04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73BC485F-46E3-4A28-BDDD-8C29C2033C04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73BC485F-46E3-4A28-BDDD-8C29C2033C04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73BC485F-46E3-4A28-BDDD-8C29C2033C04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44E18A51-EA10-4C33-B469-28BE06C45D91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44E18A51-EA10-4C33-B469-28BE06C45D91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44E18A51-EA10-4C33-B469-28BE06C45D91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44E18A51-EA10-4C33-B469-28BE06C45D91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

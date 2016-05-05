@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SignalRHost.Hubs
+namespace Preferans.Host.Hubs
 {
     class LobbyHub : Hub
     {

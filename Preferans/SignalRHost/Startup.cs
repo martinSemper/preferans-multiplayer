@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-[assembly: OwinStartup(typeof(SignalRHost.Startup))]
-namespace SignalRHost
+[assembly: OwinStartup(typeof(Preferans.Host.Startup))]
+namespace Preferans.Host
 {
     class Startup
     {
