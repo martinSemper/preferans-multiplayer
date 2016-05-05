@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preferans.Host", "SignalRHost\Preferans.Host.csproj", "{6E361672-2CF9-415B-97E4-4809F3DF40A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preferans.Host", "Preferans.Host\Preferans.Host.csproj", "{6E361672-2CF9-415B-97E4-4809F3DF40A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preferans.WebClient", "Preferans.WebClient\Preferans.WebClient.csproj", "{998EA5E8-670D-4F1F-8D5A-89FF8DFBBF82}"
 EndProject
