@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preferans.GameService", "Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preferans.Engine", "Preferans.Engine\Preferans.Engine.csproj", "{44E18A51-EA10-4C33-B469-28BE06C45D91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Preferans.Host", "Preferans.Host\Preferans.Host.csproj", "{CDA904CA-177F-4BBA-82E4-74BDFDC994FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{44E18A51-EA10-4C33-B469-28BE06C45D91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44E18A51-EA10-4C33-B469-28BE06C45D91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44E18A51-EA10-4C33-B469-28BE06C45D91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDA904CA-177F-4BBA-82E4-74BDFDC994FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDA904CA-177F-4BBA-82E4-74BDFDC994FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDA904CA-177F-4BBA-82E4-74BDFDC994FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDA904CA-177F-4BBA-82E4-74BDFDC994FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

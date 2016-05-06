@@ -29,6 +29,7 @@
 
             //Set the hubs URL for the connection
             $.connection.hub.url = "http://localhost:8080/signalr";
+            
 
 
             // Declare a proxy to reference the hub.
@@ -43,6 +44,15 @@
                 $('#discussion').append('<li><strong>' + encodedName
                     + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
             };
+
+            chat.client.makeMove = function (name) {
+
+                var encodedName = $('<div />').text(name).html();
+
+                $('#discussion').append('<li><strong>' + encodedName
+                    + '</strong>&nbsp;&nbsp;' + 'made a move' + '</li>');
+            }
+
             // Get the user name and store it to prepend to messages.
             $('#displayname').val(prompt('Enter your name:', ''));
             $.connection.hub.qs = { 'username': $('#displayname').val() }
@@ -58,7 +68,7 @@
                 });
 
                 $("#makemove").click(function () {
-                    chat.server.makeMove();
+                    chat.server.makeMove($('#displayname').val());
                     $('#message').val('').focus();
                 });
             });
