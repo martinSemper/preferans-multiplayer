@@ -6,12 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Preferans.Host
-{
-    
-    public class LobbyHub : Hub
+{    
+    class AuthorizeHubAccessAttribute : AuthorizeAttribute
     {
-        [AuthorizeHubAccess]
-        public void Send(string name, string message)
+        public override bool AuthorizeHubMethodInvocation(Microsoft.AspNet.SignalR.Hubs.IHubIncomingInvokerContext hubIncomingInvokerContext, bool appliesToMethod)
         {
             Uri target = new Uri("http://localhost:2197/verification");
 
@@ -19,20 +17,14 @@ namespace Preferans.Host
 
             string cookieName = ".AspNet.ApplicationCookie";
 
-            var cookie = new System.Net.Cookie(cookieName, this.Context.RequestCookies[cookieName].Value);
+            var cookie = new System.Net.Cookie(cookieName, hubIncomingInvokerContext.Hub.Context.RequestCookies[cookieName].Value);
             cookie.Domain = target.Host;
 
             client.Cookie = cookie;
 
             string response = client.MakeRequest();
 
-
-            this.Clients.All.addMessage(name, message);
-        }
-
-        public void MakeMove(string name)
-        {
-            this.Clients.All.makeMove(name);
+            return response == "ok";           
         }
     }
 }
