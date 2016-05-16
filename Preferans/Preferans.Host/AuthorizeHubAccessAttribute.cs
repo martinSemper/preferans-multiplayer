@@ -11,11 +11,13 @@ namespace Preferans.Host
     {
         public override bool AuthorizeHubMethodInvocation(Microsoft.AspNet.SignalR.Hubs.IHubIncomingInvokerContext hubIncomingInvokerContext, bool appliesToMethod)
         {
-            Uri target = new Uri("http://localhost:2197/verification");
+            Uri target = new Uri("http://localhost:2197/api/Account/verifyuserauthenticity");
 
             RestClient client = new RestClient(target.AbsoluteUri);
 
             string cookieName = ".AspNet.ApplicationCookie";
+
+            if (!hubIncomingInvokerContext.Hub.Context.RequestCookies.Keys.Contains(cookieName)) return false;
 
             var cookie = new System.Net.Cookie(cookieName, hubIncomingInvokerContext.Hub.Context.RequestCookies[cookieName].Value);
             cookie.Domain = target.Host;
@@ -24,7 +26,7 @@ namespace Preferans.Host
 
             string response = client.MakeRequest();
 
-            return response == "ok";           
+            return response == "true";           
         }
     }
 }
