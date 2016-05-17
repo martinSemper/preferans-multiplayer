@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace Preferans.WebClient.Controllers
 {
+    [Authorize]
     public class LobbyController : Controller
     {
         // GET: Lobby
