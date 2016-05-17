@@ -21,7 +21,7 @@ namespace Preferans.WebClient.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("UsersIdentity", throwIfV1Schema: false)
         {
         }
 
