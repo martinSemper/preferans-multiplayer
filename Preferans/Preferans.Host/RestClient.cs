@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -28,10 +29,14 @@ namespace Preferans.Host
 
         public Cookie Cookie { get; set; }
 
+        public NameValueCollection Headers { get; set; }
+
         public string MakeRequest()
         {
             return MakeRequest("");
         }
+
+        
                 
 
         public string MakeRequest(string parameters)
@@ -40,6 +45,11 @@ namespace Preferans.Host
 
             request.Method = Method.ToString();
             request.ContentType = ContentType;
+            request.Headers = new WebHeaderCollection();
+
+
+            if (request.Headers == null) request.Headers = new WebHeaderCollection();
+            if (Headers != null) request.Headers.Add(Headers);
 
             if (request.CookieContainer == null) request.CookieContainer = new CookieContainer();
 

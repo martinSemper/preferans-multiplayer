@@ -16,9 +16,10 @@ namespace Preferans.Host
             this.Clients.All.addMessage(name, message);
         }
 
+        [AuthorizeHubAccess]
         public void MakeMove(string name)
-        {
+        {          
             this.Clients.All.makeMove(name);
-        }
+        }        
     }
 }

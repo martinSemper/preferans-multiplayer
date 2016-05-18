@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,21 @@ namespace Preferans.Host
 
             string cookieName = ".AspNet.ApplicationCookie";
 
-            if (!hubIncomingInvokerContext.Hub.Context.RequestCookies.Keys.Contains(cookieName)) return false;
+            if (hubIncomingInvokerContext.Hub.Context.RequestCookies.Keys.Contains(cookieName))
+            {
+                var cookie = new System.Net.Cookie(cookieName, hubIncomingInvokerContext.Hub.Context.RequestCookies[cookieName].Value);
+                cookie.Domain = target.Host;
 
-            var cookie = new System.Net.Cookie(cookieName, hubIncomingInvokerContext.Hub.Context.RequestCookies[cookieName].Value);
-            cookie.Domain = target.Host;
+                client.Cookie = cookie;
+            }
 
-            client.Cookie = cookie;
+            var token = hubIncomingInvokerContext.Hub.Context.Headers["Authorization"];
+
+            if (token != null)
+            {
+                client.Headers = new System.Collections.Specialized.NameValueCollection();
+                client.Headers.Add("Authorization", token);
+            }                        
 
             string response = client.MakeRequest();
 
