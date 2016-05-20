@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Preferans.WebClient.Providers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,11 +10,17 @@ namespace Preferans.WebClient.ApiControllers
 {
     public class AccountController : ApiController
     {
-        [Authorize]
         [HttpGet]
-        public bool VerifyUserAuthenticity()
+        public HttpResponseMessage VerifyUserAuthenticity()
         {
-            return true;
+            HttpResponseMessage response = Request.CreateResponse();
+
+            if (User.Identity.IsAuthenticated)            
+                response.Content = new StringContent(User.Identity.Name);
+
+            response.StatusCode = HttpStatusCode.OK;
+
+            return response;
         }
     }
 }

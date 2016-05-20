@@ -8,35 +8,16 @@ using System.Threading.Tasks;
 
 namespace Preferans.Host
 {    
-    class AuthorizeHubAccessAttribute : AuthorizeAttribute
+    class AuthorizeHubMethodAccessAttribute : AuthorizeAttribute
     {
         public override bool AuthorizeHubMethodInvocation(Microsoft.AspNet.SignalR.Hubs.IHubIncomingInvokerContext hubIncomingInvokerContext, bool appliesToMethod)
         {
-            Uri target = new Uri("http://localhost:2197/api/Account/verifyuserauthenticity");
+            
+            UserMapping users = new UserMapping();
 
-            RestClient client = new RestClient(target.AbsoluteUri);
+            string user = users.GetUser(hubIncomingInvokerContext.Hub.Context.ConnectionId);
 
-            string cookieName = ".AspNet.ApplicationCookie";
-
-            if (hubIncomingInvokerContext.Hub.Context.RequestCookies.Keys.Contains(cookieName))
-            {
-                var cookie = new System.Net.Cookie(cookieName, hubIncomingInvokerContext.Hub.Context.RequestCookies[cookieName].Value);
-                cookie.Domain = target.Host;
-
-                client.Cookie = cookie;
-            }
-
-            var token = hubIncomingInvokerContext.Hub.Context.Headers["Authorization"];
-
-            if (token != null)
-            {
-                client.Headers = new System.Collections.Specialized.NameValueCollection();
-                client.Headers.Add("Authorization", token);
-            }                        
-
-            string response = client.MakeRequest();
-
-            return response == "true";           
-        }
+            return user != null;                     
+        }        
     }
 }
