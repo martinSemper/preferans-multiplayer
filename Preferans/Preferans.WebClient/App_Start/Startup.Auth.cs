@@ -35,6 +35,12 @@ namespace Preferans.WebClient
                 LoginPath = new PathString("/Account/Login"),
                 Provider = new CookieAuthenticationProvider
                 {
+                    OnApplyRedirect = ctx =>
+                        {
+                            if (ctx.IsApiAuthentication()) return;
+
+                            ctx.Response.Redirect(ctx.RedirectUri);
+                        },
                     // Enables the application to validate the security stamp when the user logs in.
                     // This is a security feature which is used when you change a password or add an external login to your account.  
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(

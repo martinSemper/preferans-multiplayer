@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.SignalR.Hubs;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -14,7 +15,9 @@ namespace Preferans.Host
     {
         internal void AuthorizeUser(HubCallerContext context)
         {
-            Uri target = new Uri("http://localhost:2197/api/Account/verifyuserauthenticity");
+            string authenticationPathKey = "AuthenticationAddress";
+
+            Uri target = new Uri(ConfigurationManager.AppSettings[authenticationPathKey]);
 
             RestClient client = new RestClient(target.AbsoluteUri);
 
@@ -42,6 +45,12 @@ namespace Preferans.Host
                         
             UserMapping users = new UserMapping();
             users.Add(context.ConnectionId, user);                      
+        }
+
+        internal void RemoveUser(HubCallerContext context)
+        {
+            UserMapping users = new UserMapping();
+            users.Remove(context.ConnectionId);
         }
     }
 }

@@ -40,8 +40,10 @@ namespace Preferans.Host
 
         public override Task OnDisconnected(bool stopCalled)
         {
+            AuthorizationProvider authorization = new AuthorizationProvider();
+            authorization.RemoveUser(Context);
+
             UserMapping users = new UserMapping();
-            users.Remove(Context.ConnectionId);
 
             Console.WriteLine("users:");
             foreach (var user in users.GetAllUsers())
