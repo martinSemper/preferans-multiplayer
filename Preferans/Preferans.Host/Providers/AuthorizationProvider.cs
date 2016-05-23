@@ -13,8 +13,10 @@ namespace Preferans.Host
 {
     class AuthorizationProvider
     {
-        internal void AuthorizeUser(HubCallerContext context)
+        internal bool TryAuthorizeUser(HubCallerContext context, out string username)
         {
+            username = null;
+
             string authenticationPathKey = "AuthenticationAddress";
 
             Uri target = new Uri(ConfigurationManager.AppSettings[authenticationPathKey]);
@@ -41,10 +43,13 @@ namespace Preferans.Host
 
             string user = client.MakeRequest();
 
-            if (String.IsNullOrEmpty(user)) return;
+            if (String.IsNullOrEmpty(user)) return false;
                         
             UserMapping users = new UserMapping();
-            users.Add(context.ConnectionId, user);                      
+            users.Add(context.ConnectionId, user);
+            username = user;
+
+            return true;
         }
 
         internal void RemoveUser(HubCallerContext context)

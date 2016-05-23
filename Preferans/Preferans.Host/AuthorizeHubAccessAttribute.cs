@@ -7,7 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Preferans.Host
-{    
+{  
+    
     class AuthorizeHubMethodAccessAttribute : AuthorizeAttribute
     {
         public override bool AuthorizeHubMethodInvocation(Microsoft.AspNet.SignalR.Hubs.IHubIncomingInvokerContext hubIncomingInvokerContext, bool appliesToMethod)

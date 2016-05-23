@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNet.SignalR;
+using Newtonsoft.Json;
+using Preferans.Host.DAL;
+using Preferans.Host.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Preferans.Host
-{
-    
+{    
     public class LobbyHub : Hub
     {
         [AuthorizeHubMethodAccess]
@@ -20,20 +22,44 @@ namespace Preferans.Host
         public void MakeMove(string name)
         {          
             this.Clients.All.makeMove(name);
-        }        
+        }    
+    
+        [AuthorizeHubMethodAccess]
+        public void CreateRoom()
+        {
+            
+        }
 
         public override Task OnConnected()
         {
             AuthorizationProvider authorization = new AuthorizationProvider();
-            authorization.AuthorizeUser(Context);
 
-            UserMapping users = new UserMapping();
-
-            Console.WriteLine("users:");
-            foreach(var user in users.GetAllUsers())
+            string username;
+            if (authorization.TryAuthorizeUser(Context, out username))
             {
-                Console.WriteLine(user);
+                IPlayerRepository players = new PlayerDbRepository();
+
+                Player player = null;
+
+                player = players.GetPlayer(username);
+
+                if (player == null) player = players.RegisterPlayer(username);
+
+                string json = JsonConvert.SerializeObject(player);
+
+                Console.WriteLine("Player {0} joined the lobby", player.Username);
+                Clients.All.addPlayer(json);
             }
+            
+            
+
+            //UserMapping users = new UserMapping();
+            
+            //Console.WriteLine("users:");
+            //foreach(var user in users.GetAllUsers())
+            //{
+            //    Console.WriteLine(user);
+            //}
             
             return base.OnConnected();
         }
@@ -43,13 +69,13 @@ namespace Preferans.Host
             AuthorizationProvider authorization = new AuthorizationProvider();
             authorization.RemoveUser(Context);
 
-            UserMapping users = new UserMapping();
+            //UserMapping users = new UserMapping();
 
-            Console.WriteLine("users:");
-            foreach (var user in users.GetAllUsers())
-            {
-                Console.WriteLine(user);
-            }
+            //Console.WriteLine("users:");
+            //foreach (var user in users.GetAllUsers())
+            //{
+            //    Console.WriteLine(user);
+            //}
 
             return base.OnDisconnected(stopCalled);
         }

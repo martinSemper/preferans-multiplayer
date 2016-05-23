@@ -16,6 +16,10 @@
     <input type="button" id="makemove" value="Make a move" />
 </div>
 
+<div class="container">
+    <ul id="players"></ul>
+</div>
+
 
 
 @section scripts{
@@ -39,6 +43,15 @@
             var chat = $.connection.lobbyHub;
 
             // Create a function that the hub can call to broadcast messages.
+
+            chat.client.addPlayer = function (json) {
+
+                var player = jQuery.parseJSON(json);
+                var encodedName = $('<div />').text(player.Username).html();
+
+                $("#players").append('<li> player ' + player.Username + ' joined the lobby </li>');
+            };
+
             chat.client.addMessage = function (name, message) {
                 // Html encode display name and message.
                 var encodedName = $('<div />').text(name).html();

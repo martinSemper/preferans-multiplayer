@@ -10,19 +10,6 @@ namespace Preferans.WebClient.ApiControllers
 {
     public class AccountController : ApiController
     {
-        //[HttpGet]
-        //public HttpResponseMessage VerifyUserAuthenticity()
-        //{
-        //    HttpResponseMessage response = Request.CreateResponse();
-
-        //    if (User.Identity.IsAuthenticated)            
-        //        response.Content = new StringContent(User.Identity.Name);
-
-        //    response.StatusCode = HttpStatusCode.OK;
-
-        //    return response;
-        //}
-
         [Authorize]
         [HttpGet]
         public string VerifyUserAuthenticity()
