@@ -27,7 +27,39 @@ namespace Preferans.Host
         [AuthorizeHubMethodAccess]
         public void CreateRoom()
         {
-            
+            UserMapping users = new UserMapping();
+            string user = users.GetUser(Context.ConnectionId);
+
+            GroupMapping groups = new GroupMapping();
+
+            try
+            {
+                Group group = groups.Create(user);
+                Clients.All.addGroup(group);
+            }
+            catch(InvalidOperationException e)
+            {
+                Clients.Caller.addMessage(e.Message);
+            }            
+        }
+
+        [AuthorizeHubMethodAccess]
+        public void JoinRoom(string groupId)
+        {
+            UserMapping users = new UserMapping();
+            string user = users.GetUser(Context.ConnectionId);
+
+            GroupMapping groups = new GroupMapping();
+
+            try
+            {
+                Group group = groups.AddMember(user, groupId);                
+                Clients.All.addGroupMember(group);
+            }
+            catch(InvalidOperationException e)
+            {
+                Clients.Caller.addMessage(e.Message);
+            }
         }
 
         public override Task OnConnected()
