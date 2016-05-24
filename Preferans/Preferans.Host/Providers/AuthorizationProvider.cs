@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.SignalR.Hubs;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -44,10 +45,8 @@ namespace Preferans.Host
             string user = client.MakeRequest();
 
             if (String.IsNullOrEmpty(user)) return false;
-                        
-            UserMapping users = new UserMapping();
-            users.Add(context.ConnectionId, user);
-            username = user;
+
+            username = JsonConvert.DeserializeObject<UserData>(user).Username;
 
             return true;
         }
@@ -57,5 +56,10 @@ namespace Preferans.Host
             UserMapping users = new UserMapping();
             users.Remove(context.ConnectionId);
         }
+    }
+
+    class UserData
+    {
+        public string Username { get; set; }
     }
 }

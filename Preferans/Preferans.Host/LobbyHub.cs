@@ -37,6 +37,10 @@ namespace Preferans.Host
             string username;
             if (authorization.TryAuthorizeUser(Context, out username))
             {
+                UserMapping users = new UserMapping();
+
+                users.Add(Context.ConnectionId, username);
+
                 IPlayerRepository players = new PlayerDbRepository();
 
                 Player player = null;
@@ -48,35 +52,20 @@ namespace Preferans.Host
                 string json = JsonConvert.SerializeObject(player);
 
                 Console.WriteLine("Player {0} joined the lobby", player.Username);
-                Clients.All.addPlayer(json);
+                Clients.All.addPlayer(username);
             }
-            
-            
-
-            //UserMapping users = new UserMapping();
-            
-            //Console.WriteLine("users:");
-            //foreach(var user in users.GetAllUsers())
-            //{
-            //    Console.WriteLine(user);
-            //}
             
             return base.OnConnected();
         }
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            AuthorizationProvider authorization = new AuthorizationProvider();
-            authorization.RemoveUser(Context);
+            UserMapping users = new UserMapping();
+            string user = users.GetUser(Context.ConnectionId);
 
-            //UserMapping users = new UserMapping();
-
-            //Console.WriteLine("users:");
-            //foreach (var user in users.GetAllUsers())
-            //{
-            //    Console.WriteLine(user);
-            //}
-
+            users.Remove(Context.ConnectionId);
+            Clients.All.removePlayer(user);
+                        
             return base.OnDisconnected(stopCalled);
         }
     }

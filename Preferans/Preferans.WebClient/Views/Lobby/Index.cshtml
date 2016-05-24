@@ -44,12 +44,11 @@
 
             // Create a function that the hub can call to broadcast messages.
 
-            chat.client.addPlayer = function (json) {
+            chat.client.addPlayer = function (username) {
+               
+                var encodedName = $('<div />').text(username).html();
 
-                var player = jQuery.parseJSON(json);
-                var encodedName = $('<div />').text(player.Username).html();
-
-                $("#players").append('<li> player ' + player.Username + ' joined the lobby </li>');
+                $("#players").append('<li> player ' + encodedName + ' joined the lobby </li>');
             };
 
             chat.client.addMessage = function (name, message) {

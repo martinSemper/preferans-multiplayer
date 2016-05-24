@@ -12,9 +12,15 @@ namespace Preferans.WebClient.ApiControllers
     {
         [Authorize]
         [HttpGet]
-        public string VerifyUserAuthenticity()
+        public UserData VerifyUserAuthenticity()
         {
-            return User.Identity.Name;
+            return new UserData() { Username = User.Identity.Name };
+        }
+
+
+        public class UserData
+        {
+            public string Username { get; set; }
         }
     }
 }
