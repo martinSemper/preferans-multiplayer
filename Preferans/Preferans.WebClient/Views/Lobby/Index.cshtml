@@ -17,7 +17,8 @@
 </div>
 
 <div class="container">
-    <ul id="players"></ul>
+    <ul id="players">
+    </ul>
 </div>
 
 
@@ -48,8 +49,15 @@
                
                 var encodedName = $('<div />').text(username).html();
 
-                $("#players").append('<li> player ' + encodedName + ' joined the lobby </li>');
+                $("#players").append('<li id="' + encodedName  + '">' + 'player '  + encodedName + ' joined the lobby </li>');
             };
+
+            chat.client.removePlayer = function (username) {
+
+                var encodedName = $('<div />').text(username).html();
+
+                $("#players").find('#' + encodedName).remove();
+            }
 
             chat.client.addMessage = function (name, message) {
                 // Html encode display name and message.
