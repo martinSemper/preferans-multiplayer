@@ -32,9 +32,9 @@ namespace Preferans.Host
 
             if (group == null) throw new InvalidOperationException(String.Format("Group with Id {0} does not exist", groupId));
 
-            if (!CheckUserUnicity(username)) throw new InvalidOperationException(String.Format("User {0} is already a member of a group", username));
+            if (!CheckUserUnicity(username)) throw new InvalidOperationException(String.Format("User {0} is already a member of a some group", username));
 
-            if (!group.Add(username)) throw new InvalidOperationException(String.Format("Group is already full")); 
+            if (!group.Add(username)) throw new InvalidOperationException(String.Format("Member {0} is already a member of this group", username)); 
 
             return group;
         }

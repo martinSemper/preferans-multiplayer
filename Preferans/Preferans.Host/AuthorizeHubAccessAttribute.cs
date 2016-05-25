@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hosting;
+using Preferans.Host.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Preferans.Host
             
             UserMapping users = new UserMapping();
 
-            string user = users.GetUser(hubIncomingInvokerContext.Hub.Context.ConnectionId);
+            User user = users.GetUser(hubIncomingInvokerContext.Hub.Context.ConnectionId);
 
             return user != null;                     
         }        

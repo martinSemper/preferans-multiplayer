@@ -26,7 +26,10 @@ namespace Preferans.WebClient
             bundles.Add(new ScriptBundle("~/bundles/signalR")
                 .Include("~/Scripts/jquery.signalR-{version}.js")
                 );
-                
+              
+            bundles.Add(new ScriptBundle("~/bundles/custom")
+            .Include("~/Scripts/Custom/hub.client.js")
+            );
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

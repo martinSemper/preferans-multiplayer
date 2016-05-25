@@ -39,5 +39,13 @@ namespace Preferans.Host.DAL
 
             return player;
         }
+
+
+        public IEnumerable<Player> GetPlayers(IEnumerable<string> users)
+        {
+            IEnumerable<Player> players = _context.Players.Where(p => users.Contains(p.Username));
+
+            return players;
+        }
     }
 }

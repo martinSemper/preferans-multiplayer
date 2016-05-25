@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Preferans.Host.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,26 +9,27 @@ namespace Preferans.Host
 {
     class UserMapping
     {
-        private readonly static Dictionary<string, string> _users = new Dictionary<string, string>();
+        private readonly static Dictionary<string, User> _users = new Dictionary<string, User>();
 
-        public string GetUser(string connectionId)
+        public User GetUser(string connectionId)
         {
-            string user;
+            User user;
 
             if (_users.TryGetValue(connectionId, out user)) return user;
 
             return null;
         }
 
-        public IEnumerable<string> GetAllUsers()
+        public IEnumerable<User> GetAllUsers()
         {
-            return _users.Keys.Select(key => _users[key]);
+            return _users.Values;
         }
 
-        public void Add(string connectionId, string user)
+        public void Add(string connectionId, string username)
         {
             lock (_users)
             {
+                User user = new User() { Username = username, UtcConnected = DateTime.UtcNow };
                 _users.Add(connectionId, user);
             }
         }

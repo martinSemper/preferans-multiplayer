@@ -11,5 +11,6 @@ namespace Preferans.Host.DAL
     {
         Player GetPlayer(string username);
         Player RegisterPlayer(string username);
+        IEnumerable<Player> GetPlayers(IEnumerable<string> users);        
     }
 }

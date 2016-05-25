@@ -24,7 +24,7 @@ namespace Preferans.Host.Models
 
         public bool Add(string member)
         {
-            if (_members.Count == _capacity) return false;
+            if (_members.Count == _capacity) throw new InvalidOperationException("Group is already full");
 
             return _members.Add(member);
         }

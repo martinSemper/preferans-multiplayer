@@ -13,33 +13,39 @@ namespace Preferans.Host
     public class LobbyHub : Hub
     {
         [AuthorizeHubMethodAccess]
-        public void Send(string name, string message)
+        public void Send(string message)
         {
-            this.Clients.All.addMessage(name, message);
+            UserMapping users = new UserMapping();
+            User user = users.GetUser(Context.ConnectionId);
+
+            this.Clients.All.addMessage(user.Username, message);
         }
 
         [AuthorizeHubMethodAccess]
-        public void MakeMove(string name)
-        {          
-            this.Clients.All.makeMove(name);
+        public void MakeMove()
+        {
+            UserMapping users = new UserMapping();
+            User user = users.GetUser(Context.ConnectionId);
+
+            this.Clients.All.makeMove(user.Username);
         }    
     
         [AuthorizeHubMethodAccess]
         public void CreateRoom()
         {
             UserMapping users = new UserMapping();
-            string user = users.GetUser(Context.ConnectionId);
+            User user = users.GetUser(Context.ConnectionId);
 
             GroupMapping groups = new GroupMapping();
 
             try
             {
-                Group group = groups.Create(user);
-                Clients.All.addGroup(group);
+                Group group = groups.Create(user.Username);
+                Clients.All.addRoom(group);
             }
             catch(InvalidOperationException e)
             {
-                Clients.Caller.addMessage(e.Message);
+                Clients.Caller.displayErrorMessage(e.Message);
             }            
         }
 
@@ -47,18 +53,18 @@ namespace Preferans.Host
         public void JoinRoom(string groupId)
         {
             UserMapping users = new UserMapping();
-            string user = users.GetUser(Context.ConnectionId);
+            User user = users.GetUser(Context.ConnectionId);
 
             GroupMapping groups = new GroupMapping();
 
             try
             {
-                Group group = groups.AddMember(user, groupId);                
-                Clients.All.addGroupMember(group);
+                Group group = groups.AddMember(user.Username, groupId);                
+                Clients.All.addRoomMember(group);
             }
             catch(InvalidOperationException e)
             {
-                Clients.Caller.addMessage(e.Message);
+                Clients.Caller.displayErrorMessage(e.Message);
             }
         }
 
@@ -81,10 +87,13 @@ namespace Preferans.Host
 
                 if (player == null) player = players.RegisterPlayer(username);
 
-                string json = JsonConvert.SerializeObject(player);
-
+                                
                 Console.WriteLine("Player {0} joined the lobby", player.Username);
-                Clients.All.addPlayer(username);
+
+                Clients.AllExcept(Context.ConnectionId).addPlayer(player);
+
+                var allUsers = users.GetAllUsers().OrderBy(u => u.UtcConnected);
+                Clients.Caller.addExistingPlayers(players.GetPlayers(allUsers.Select(u => u.Username)));
             }
             
             return base.OnConnected();
@@ -93,10 +102,10 @@ namespace Preferans.Host
         public override Task OnDisconnected(bool stopCalled)
         {
             UserMapping users = new UserMapping();
-            string user = users.GetUser(Context.ConnectionId);
+            User user = users.GetUser(Context.ConnectionId);
 
             users.Remove(Context.ConnectionId);
-            Clients.All.removePlayer(user);
+            Clients.All.removePlayer(user.Username);
                         
             return base.OnDisconnected(stopCalled);
         }
