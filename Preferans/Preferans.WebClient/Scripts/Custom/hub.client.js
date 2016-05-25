@@ -29,7 +29,7 @@ function addPlayer(player) {
 
     var rowElement = nameElement + gameNumberElement + scoreElement;
 
-    $("#players").append('<div id="' + encodedName + '" class="row">' + rowElement + '</li>');
+    $("#players").append('<div id="' + encodedName + '" class="row">' + rowElement + '</div>');
 }
 
 function addExistingPlayers(players) {
@@ -54,6 +54,10 @@ function makeMove(username) {
         + '</strong>&nbsp;&nbsp;' + 'made a move' + '</li>');
 }
 
+function addRoom(group) {
+
+    
+}
 
 
 
@@ -78,7 +82,10 @@ function configureMakeMoveEvent(lobby) {
     });
 }
 
-function configureCreateRoomEvent() {
+function configureCreateGameEvent(lobby) {
 
+    $('#creategame').click(function () {
 
+        lobby.server.createGame();
+    })
 }

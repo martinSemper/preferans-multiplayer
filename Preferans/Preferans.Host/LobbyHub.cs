@@ -31,7 +31,7 @@ namespace Preferans.Host
         }    
     
         [AuthorizeHubMethodAccess]
-        public void CreateRoom()
+        public void CreateGame()
         {
             UserMapping users = new UserMapping();
             User user = users.GetUser(Context.ConnectionId);

@@ -20,7 +20,8 @@
         </div>       
 
         <div class="col-sm-3">
-            <ul id="rooms"></ul>
+            <div class="container" id="rooms"></div>
+            <input type="button" id="creategame" value="Create game" />
         </div>
 
         <div class="col-sm-3">
@@ -68,6 +69,7 @@
             $.connection.hub.start().done(function () {                
                 configureSendMessageEvent(lobby);
                 configureMakeMoveEvent(lobby);
+                configureCreateGameEvent(lobby);
             });
         });
 
