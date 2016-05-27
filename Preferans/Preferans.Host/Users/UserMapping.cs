@@ -29,6 +29,7 @@ namespace Preferans.Host
         {
             lock (_users)
             {
+                if (!CheckUserUnicity(username)) throw new InvalidOperationException(String.Format("User {0} is already connected through another device", username));
                 User user = new User() { Username = username, UtcConnected = DateTime.UtcNow };
                 _users.Add(connectionId, user);
             }
@@ -40,6 +41,11 @@ namespace Preferans.Host
             {
                 _users.Remove(connectionId);
             }
+        }
+
+        private bool CheckUserUnicity(string username)
+        {
+            return !_users.Values.Select(v => v.Username).Contains(username);
         }
     }
 }

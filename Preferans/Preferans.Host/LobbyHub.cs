@@ -77,7 +77,16 @@ namespace Preferans.Host
             {
                 UserMapping users = new UserMapping();
 
-                users.Add(Context.ConnectionId, username);
+                try
+                {
+                    users.Add(Context.ConnectionId, username);
+                }
+                catch(InvalidOperationException e)
+                {
+                    Clients.Caller.displayErrorMessage(e.Message);
+                    return Task.FromResult(0);
+                }
+                
 
                 IPlayerRepository players = new PlayerDbRepository();
 
