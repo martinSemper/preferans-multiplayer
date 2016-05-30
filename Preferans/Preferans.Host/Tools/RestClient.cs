@@ -65,6 +65,8 @@ namespace Preferans.Host
                 }
             }
 
+            
+
             using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             {
                 string responseValue = String.Empty;

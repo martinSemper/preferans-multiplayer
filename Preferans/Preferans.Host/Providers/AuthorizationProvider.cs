@@ -19,28 +19,28 @@ namespace Preferans.Host
             username = null;
 
             string authenticationPathKey = "AuthenticationAddress";
+            string appCookieName = ".AspNet.ApplicationCookie";
+            string cookieContainerName = "AuthenticationCookie";
 
             Uri target = new Uri(ConfigurationManager.AppSettings[authenticationPathKey]);
 
-            RestClient client = new RestClient(target.AbsoluteUri);
-
-            string cookieName = ".AspNet.ApplicationCookie";
-
-            if (context.RequestCookies.Keys.Contains(cookieName))
-            {
-                var cookie = new System.Net.Cookie(cookieName, context.RequestCookies[cookieName].Value);
-                cookie.Domain = target.Host;
-
-                client.Cookie = cookie;
-            }
+            RestClient client = new RestClient(target.AbsoluteUri);                       
 
             var token = context.Headers["Authorization"];
-
             if (token != null)
             {
                 client.Headers = new System.Collections.Specialized.NameValueCollection();
                 client.Headers.Add("Authorization", token);
-            }            
+            }
+
+
+            var cookieValue = context.QueryString[cookieContainerName];
+            if (cookieValue != null)
+            {
+                var cookie = new System.Net.Cookie(appCookieName, cookieValue);
+                cookie.Domain = target.Host;
+                client.Cookie = cookie;
+            }
 
             string user = client.MakeRequest();
 
@@ -49,12 +49,6 @@ namespace Preferans.Host
             username = JsonConvert.DeserializeObject<UserData>(user).Username;
 
             return true;
-        }
-
-        internal void RemoveUser(HubCallerContext context)
-        {
-            UserMapping users = new UserMapping();
-            users.Remove(context.ConnectionId);
         }
     }
 

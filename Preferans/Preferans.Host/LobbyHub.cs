@@ -86,7 +86,7 @@ namespace Preferans.Host
                     Clients.Caller.displayErrorMessage(e.Message);
                     return Task.FromResult(0);
                 }
-                
+
 
                 IPlayerRepository players = new PlayerDbRepository();
 
@@ -96,7 +96,7 @@ namespace Preferans.Host
 
                 if (player == null) player = players.RegisterPlayer(username);
 
-                                
+
                 Console.WriteLine("Player {0} joined the lobby", player.Username);
 
                 Clients.AllExcept(Context.ConnectionId).addPlayer(player);
