@@ -15,7 +15,7 @@
     <AssemblyName>Preferans.WebClient</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -284,7 +284,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2197</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://10.11.21.143/Preferans.WebClient</IISUrl>
+          <IISUrl>http://localhost:2197/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
