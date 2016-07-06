@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Text;
@@ -42,7 +43,17 @@ namespace Preferans.Host
                 client.Cookie = cookie;
             }
 
-            string user = client.MakeRequest();
+            string user = null;
+            try
+            {
+                user = client.MakeRequest();
+            }
+            catch(WebException we)
+            {
+                Console.WriteLine("Authorization error: " + we.Message);
+                throw we;
+            }
+            
 
             if (String.IsNullOrEmpty(user)) return false;
 
