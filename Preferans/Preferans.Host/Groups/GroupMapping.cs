@@ -9,7 +9,7 @@ namespace Preferans.Host
 {
     class GroupMapping
     {
-        private readonly List<Group> _groups = new List<Group>();
+        private readonly static List<Group> _groups = new List<Group>();
 
         public Group Get(string username)
         {
@@ -20,8 +20,13 @@ namespace Preferans.Host
         {
             if (!CheckUserUnicity(username)) throw new InvalidOperationException(String.Format("User {0} is already a member of a group", username));
 
-            Group group = new Group(username);
-            _groups.Add(group);
+            Group group = null;
+
+            lock (_groups)
+            {
+                group = new Group(username);
+                _groups.Add(group);
+            }
 
             return group;
         }
@@ -32,9 +37,12 @@ namespace Preferans.Host
 
             if (group == null) throw new InvalidOperationException(String.Format("Group with Id {0} does not exist", groupId));
 
-            if (!CheckUserUnicity(username)) throw new InvalidOperationException(String.Format("User {0} is already a member of a some group", username));
+            if (!CheckUserUnicity(username)) throw new InvalidOperationException(String.Format("User {0} is already a member of some group", username));
 
-            if (!group.Add(username)) throw new InvalidOperationException(String.Format("Member {0} is already a member of this group", username)); 
+            lock (group)
+            {
+                if (!group.Add(username)) throw new InvalidOperationException(String.Format("Member {0} is already a member of this group", username)); 
+            }           
 
             return group;
         }
@@ -46,6 +54,27 @@ namespace Preferans.Host
             return !allMembers.Contains(username);
         }
 
-        
+
+
+        internal void RemoveMember(string username)
+        {
+            string member = _groups.SelectMany(g => g.Members).SingleOrDefault(m => m == username);
+            
+            if (member != null)
+            {
+                lock(_groups)
+                {
+                    var group = _groups.Single(g => g.Members.Any(m => m == username));
+
+                    if (group.Id == username)
+                    {
+                        _groups.Remove(group);
+                        return;
+                    }
+
+                    group.Remove(username);
+                }
+            }
+        }
     }
 }

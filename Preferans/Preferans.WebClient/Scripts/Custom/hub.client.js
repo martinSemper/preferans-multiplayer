@@ -56,7 +56,8 @@ function makeMove(username) {
 
 function addRoom(group) {
 
-    
+    var result = createRoomElement(group);
+
 }
 
 
@@ -88,4 +89,34 @@ function configureCreateGameEvent(lobby) {
 
         lobby.server.createGame();
     })
+}
+
+
+//      ************
+//      GUI elements 
+
+
+function createRoomElement(group) {
+
+    var encodedName = $('<div />').text(group.Id).html();
+
+    var id = "game-" + encodedName;
+
+    var roomElement = '<div id="' + id + '" class="row">' + '</div>';
+
+    for (i = 0; i < 3; i++) {
+
+        var openingTag = '<div class=col-sm-4 style="color:';
+
+        var color = 'white">';
+        if (group.Members[i] != null) color = 'black';
+
+        var closing = '</div>';
+
+        var player = openingTag + color + closing;
+
+        $(roomElement).append(player);
+    }
+
+    return roomElement;
 }

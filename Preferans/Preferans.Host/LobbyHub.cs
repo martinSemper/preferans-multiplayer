@@ -41,6 +41,7 @@ namespace Preferans.Host
             try
             {
                 Group group = groups.Create(user.Username);
+                Clients.Caller.enterRoom(group);
                 Clients.All.addRoom(group);
             }
             catch(InvalidOperationException e)
@@ -112,6 +113,9 @@ namespace Preferans.Host
         {
             UserMapping users = new UserMapping();
             User user = users.GetUser(Context.ConnectionId);
+
+            GroupMapping groups = new GroupMapping();
+            groups.RemoveMember(user.Username);
 
             users.Remove(Context.ConnectionId);
             Clients.All.removePlayer(user.Username);
