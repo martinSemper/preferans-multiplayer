@@ -41,6 +41,7 @@ namespace Preferans.Host
             try
             {
                 Group group = groups.Create(user.Username);
+                Groups.Add(Context.ConnectionId, user.Username);
                 Clients.Caller.enterRoom(group);
                 Clients.All.addRoom(group);
             }

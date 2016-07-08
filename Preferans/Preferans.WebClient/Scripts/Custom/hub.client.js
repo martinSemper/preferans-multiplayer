@@ -56,8 +56,9 @@ function makeMove(username) {
 
 function addRoom(group) {
 
-    var result = createRoomElement(group);
+    var $roomElement = createRoomElement(group);
 
+    $("#rooms").append($roomElement);
 }
 
 
@@ -102,21 +103,31 @@ function createRoomElement(group) {
 
     var id = "game-" + encodedName;
 
-    var roomElement = '<div id="' + id + '" class="row">' + '</div>';
+    var $roomElement = $('<div id="' + id + '" class="row">' + '</div>');
 
     for (i = 0; i < 3; i++) {
 
         var openingTag = '<div class=col-sm-4 style="color:';
 
-        var color = 'white">';
-        if (group.Members[i] != null) color = 'black';
+        var color = 'black">';
 
-        var closing = '</div>';
+        var member = group.Members[i];
 
-        var player = openingTag + color + closing;
+        if (group.Members[i] == null)
+        {
+            color = 'green">';
+        }
 
-        $(roomElement).append(player);
+        var content = 'player';
+
+        var closingTag = '</div>';
+
+        var $player = $(openingTag + color + content + closingTag);
+
+        $roomElement.append($player);
+
+        var temp = 0;
     }
 
-    return roomElement;
+    return $roomElement;
 }
