@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 namespace Preferans.Host
 {    
     public class LobbyHub : Hub
-    {
+    {        
+
         [AuthorizeHubMethodAccess]
         public void Send(string message)
         {
@@ -105,6 +106,8 @@ namespace Preferans.Host
 
                 var allUsers = users.GetAllUsers().OrderBy(u => u.UtcConnected);
                 Clients.Caller.addExistingPlayers(players.GetPlayers(allUsers.Select(u => u.Username)));
+
+                //Clients.Caller.addExistingGames((new GroupMapping()).)
             }
             
             return base.OnConnected();
