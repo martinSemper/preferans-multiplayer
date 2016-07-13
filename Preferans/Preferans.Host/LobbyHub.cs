@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 namespace Preferans.Host
 {    
     public class LobbyHub : Hub
-    {        
-
+    {      
+        
         [AuthorizeHubMethodAccess]
         public void Send(string message)
         {
@@ -80,6 +80,7 @@ namespace Preferans.Host
             {
                 UserMapping users = new UserMapping();
 
+
                 try
                 {
                     users.Add(Context.ConnectionId, username);
@@ -90,15 +91,10 @@ namespace Preferans.Host
                     return Task.FromResult(0);
                 }
 
-
                 IPlayerRepository players = new PlayerDbRepository();
+                Player player = players.TryRegisterPlayer(username);
 
-                Player player = null;
-
-                player = players.GetPlayer(username);
-
-                if (player == null) player = players.RegisterPlayer(username);
-
+                
 
                 Console.WriteLine("Player {0} joined the lobby", player.Username);
 
@@ -112,6 +108,7 @@ namespace Preferans.Host
             
             return base.OnConnected();
         }
+
 
         public override Task OnDisconnected(bool stopCalled)
         {

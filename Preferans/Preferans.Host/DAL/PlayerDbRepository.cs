@@ -47,5 +47,17 @@ namespace Preferans.Host.DAL
 
             return players;
         }
+
+
+        public Player TryRegisterPlayer(string username)
+        {
+            Player player = null;
+
+            player = GetPlayer(username);
+
+            if (player == null) player = RegisterPlayer(username);
+
+            return player;
+        }
     }
 }

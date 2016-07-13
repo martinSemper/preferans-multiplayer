@@ -21,7 +21,7 @@ namespace Preferans.Host
         }
 
         public IEnumerable<User> GetAllUsers()
-        {
+        {            
             return _users.Values;
         }
 
