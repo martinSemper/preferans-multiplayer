@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
 using Preferans.Host.DAL;
+using Preferans.Host.Messaging.Lobby;
 using Preferans.Host.Models;
 using System;
 using System.Collections.Generic;
@@ -79,7 +80,7 @@ namespace Preferans.Host
             if (authorization.TryAuthorizeUser(Context, out username))
             {
                 UserMapping users = new UserMapping();
-
+                LobbyMessenger messenger = new LobbyMessenger(Clients);
 
                 try
                 {
@@ -87,23 +88,17 @@ namespace Preferans.Host
                 }
                 catch(InvalidOperationException e)
                 {
+                    
                     Clients.Caller.displayErrorMessage(e.Message);
-                    return Task.FromResult(0);
+                    return base.OnConnected();
                 }
 
                 IPlayerRepository players = new PlayerDbRepository();
                 Player player = players.TryRegisterPlayer(username);
 
-                
+                messenger.AddUser(username);
 
-                Console.WriteLine("Player {0} joined the lobby", player.Username);
-
-                Clients.AllExcept(Context.ConnectionId).addPlayer(player);
-
-                var allUsers = users.GetAllUsers().OrderBy(u => u.UtcConnected);
-                Clients.Caller.addExistingPlayers(players.GetPlayers(allUsers.Select(u => u.Username)));
-
-                //Clients.Caller.addExistingGames((new GroupMapping()).)
+                Console.WriteLine("Player {0} joined the lobby", player.Username);                     
             }
             
             return base.OnConnected();
@@ -115,11 +110,14 @@ namespace Preferans.Host
             UserMapping users = new UserMapping();
             User user = users.GetUser(Context.ConnectionId);
 
-            GroupMapping groups = new GroupMapping();
-            groups.RemoveMember(user.Username);
-
+            //GroupMapping groups = new GroupMapping();
+            //groups.RemoveMember(user.Username);
+            
             users.Remove(Context.ConnectionId);
-            Clients.All.removePlayer(user.Username);
+                       
+
+            LobbyMessenger messenger = new LobbyMessenger(Clients);
+            messenger.RemoveUser(user.Username);
                         
             return base.OnDisconnected(stopCalled);
         }

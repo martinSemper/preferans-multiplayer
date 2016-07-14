@@ -98,6 +98,11 @@
     <Compile Include="DAL\PlayerDbRepository.cs" />
     <Compile Include="Groups\GroupMapping.cs" />
     <Compile Include="LobbyHub.cs" />
+    <Compile Include="Messaging\ICommand.cs" />
+    <Compile Include="Messaging\Lobby\AddUser.cs" />
+    <Compile Include="Messaging\Lobby\LobbyMessenger.cs" />
+    <Compile Include="Messaging\Lobby\RemoveUser.cs" />
+    <Compile Include="Messaging\Lobby\SendErrorMessage.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\User.cs" />

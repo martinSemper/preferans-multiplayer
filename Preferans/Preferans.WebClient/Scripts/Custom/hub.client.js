@@ -61,6 +61,16 @@ function addRoom(group) {
     $("#rooms").append($roomElement);
 }
 
+function addExistingRooms(groups) {
+
+    $(groups).each(function (index, value) {
+
+        addRoom(value);
+    });
+
+}
+
+
 
 
 //      **********  
@@ -113,12 +123,16 @@ function createRoomElement(group) {
 
         var member = group.Members[i];
 
-        if (group.Members[i] == null)
+        if (member == null)
         {
             color = 'green">';
         }
 
-        var content = 'player';
+        var content = 'empty';
+        if (group.Members[i] != null)
+        {
+            content = member;
+        }
 
         var closingTag = '</div>';
 

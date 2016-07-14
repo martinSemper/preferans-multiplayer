@@ -16,6 +16,10 @@ namespace Preferans.Host
             return _groups.SingleOrDefault(g => g.Members.Any(m => m == username));
         }
 
+        public IEnumerable<Group> GetAllGroups()
+        {
+            return _groups;
+        }
         public Group Create(string username)
         {
             if (!CheckUserUnicity(username)) throw new InvalidOperationException(String.Format("User {0} is already a member of a group", username));
