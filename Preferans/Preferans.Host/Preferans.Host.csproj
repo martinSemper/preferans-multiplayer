@@ -96,6 +96,7 @@
     <Compile Include="DAL\IPlayerRepository.cs" />
     <Compile Include="DAL\PlayerContext.cs" />
     <Compile Include="DAL\PlayerDbRepository.cs" />
+    <Compile Include="Environment\Lobby.cs" />
     <Compile Include="Groups\GroupMapping.cs" />
     <Compile Include="LobbyHub.cs" />
     <Compile Include="Messaging\ICommand.cs" />

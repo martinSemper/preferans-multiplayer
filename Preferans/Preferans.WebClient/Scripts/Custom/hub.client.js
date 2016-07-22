@@ -1,5 +1,6 @@
 ﻿// Client handlers 
 
+var lobbyHub = null;
 
 function appendMessage(name, message) {
 
@@ -15,7 +16,7 @@ function displayErrorMessage(message) {
 
     var encodedMsg = $('<div />').text(message).html();
 
-    $('#errorList').append('<li><strong>Error: <strong/>' + encodedMsg + '<li/>');
+    $('#errorList').append('<li><strong>Error: <strong/>' + encodedMsg);
 }
 
 function addPlayer(player) {
@@ -46,6 +47,11 @@ function removePlayer(username) {
     $("#players").find('#' + encodedName).remove();
 }
 
+function removeGroup(groupId) {        
+
+    $("#rooms").find('#' + 'game-' + groupId).remove();
+}
+
 function makeMove(username) {
 
     var encodedName = $('<div />').text(username).html();
@@ -68,6 +74,11 @@ function addExistingRooms(groups) {
         addRoom(value);
     });
 
+}
+
+function addRoomMember(group) {
+
+    alert('new member');
 }
 
 
@@ -102,6 +113,9 @@ function configureCreateGameEvent(lobby) {
     })
 }
 
+function joinRoom(groupId) {
+    lobbyHub.server.joinRoom(groupId);
+}
 
 //      ************
 //      GUI elements 
@@ -115,33 +129,36 @@ function createRoomElement(group) {
 
     var $roomElement = $('<div id="' + id + '" class="row">' + '</div>');
 
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < 3; i++) {        
 
-        var openingTag = '<div class=col-sm-4 style="color:';
+        var $player = createPlayerSlot(group.Members[i], group.Id);
 
-        var color = 'black">';
-
-        var member = group.Members[i];
-
-        if (member == null)
-        {
-            color = 'green">';
-        }
-
-        var content = 'empty';
-        if (group.Members[i] != null)
-        {
-            content = member;
-        }
-
-        var closingTag = '</div>';
-
-        var $player = $(openingTag + color + content + closingTag);
-
-        $roomElement.append($player);
-
-        var temp = 0;
+        $roomElement.append($player);                
     }
 
     return $roomElement;
 }
+
+function createPlayerSlot(player, groupId) {
+
+    var openingTag = '<div class=col-sm-4 style="color:';
+    var color = 'green">';
+    var content = 'empty';
+
+    if (player != null) {
+        content = player;
+        color = 'black">';
+    }
+
+    var closingTag = '</div>';
+
+    var $player = $(openingTag + color + content + closingTag);
+
+    $player.click(function () {
+        alert('joining...');
+        joinRoom(groupId);
+    })
+
+    return $player;
+}
+

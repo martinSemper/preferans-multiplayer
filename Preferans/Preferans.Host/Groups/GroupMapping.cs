@@ -72,7 +72,7 @@ namespace Preferans.Host
 
                     if (group.Id == username)
                     {
-                        _groups.Remove(group);
+                        _groups.Remove(group);                        
                         return;
                     }
 

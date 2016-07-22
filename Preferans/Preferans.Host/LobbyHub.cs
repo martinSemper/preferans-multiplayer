@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
 using Preferans.Host.DAL;
+using Preferans.Host.Environment;
 using Preferans.Host.Messaging.Lobby;
 using Preferans.Host.Models;
 using System;
@@ -79,26 +80,15 @@ namespace Preferans.Host
             string username;
             if (authorization.TryAuthorizeUser(Context, out username))
             {
-                UserMapping users = new UserMapping();
-                LobbyMessenger messenger = new LobbyMessenger(Clients);
-
                 try
                 {
-                    users.Add(Context.ConnectionId, username);
+                    Lobby lobby = new Lobby(Clients);
+                    lobby.AddUser(username, Context.ConnectionId);
                 }
-                catch(InvalidOperationException e)
+                catch(InvalidOperationException ioe)
                 {
-                    
-                    Clients.Caller.displayErrorMessage(e.Message);
-                    return base.OnConnected();
-                }
-
-                IPlayerRepository players = new PlayerDbRepository();
-                Player player = players.TryRegisterPlayer(username);
-
-                messenger.AddUser(username);
-
-                Console.WriteLine("Player {0} joined the lobby", player.Username);                     
+                    Clients.Caller.sendErrorMessage(ioe.Message);
+                }                
             }
             
             return base.OnConnected();
@@ -107,17 +97,15 @@ namespace Preferans.Host
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            UserMapping users = new UserMapping();
-            User user = users.GetUser(Context.ConnectionId);
-
-            //GroupMapping groups = new GroupMapping();
-            //groups.RemoveMember(user.Username);
-            
-            users.Remove(Context.ConnectionId);
-                       
-
-            LobbyMessenger messenger = new LobbyMessenger(Clients);
-            messenger.RemoveUser(user.Username);
+            try
+            {
+                Lobby lobby = new Lobby(Clients);
+                lobby.RemoveUser(Context.ConnectionId);
+            }
+            catch(InvalidOperationException ioe)
+            {
+                Clients.Caller.sendErrorMessage(ioe.Message);
+            }
                         
             return base.OnDisconnected(stopCalled);
         }

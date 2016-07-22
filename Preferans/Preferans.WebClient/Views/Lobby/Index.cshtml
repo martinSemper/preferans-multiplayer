@@ -62,6 +62,8 @@
             lobby.client.addExistingPlayers = addExistingPlayers;
             lobby.client.addRoom = addRoom;
             lobby.client.addExistingGroups = addExistingRooms;
+            lobby.client.removeGroup = removeGroup;
+            lobby.client.addRoomMember = addRoomMember;
 
             // Get the user name and store it to prepend to messages.
             //$('#displayname').val(prompt('Enter your name:', ''));
@@ -74,6 +76,7 @@
                 configureSendMessageEvent(lobby);
                 configureMakeMoveEvent(lobby);
                 configureCreateGameEvent(lobby);
+                lobbyHub = lobby;
             });
         });
 
