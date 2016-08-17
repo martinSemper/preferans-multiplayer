@@ -81,6 +81,10 @@ function addRoomMember(group) {
     alert('new member');
 }
 
+function removeGroupMember(username) {
+    alert('player ' + username + ' exited the room.');
+}
+
 
 
 
@@ -128,7 +132,7 @@ function createRoomElement(group) {
     var id = "game-" + encodedName;
 
     var $roomElement = $('<div id="' + id + '" class="row">' + '</div>');
-
+    
     for (i = 0; i < 3; i++) {        
 
         var $player = createPlayerSlot(group.Members[i], group.Id);

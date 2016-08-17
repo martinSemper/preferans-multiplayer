@@ -60,7 +60,7 @@ namespace Preferans.Host.Environment
                 string id = group.Id;
                 _groups.RemoveMember(user.Username);
 
-                if (_groups.Get(user.Username) != null)
+                if (_groups.Get(id) != null)
                     _clients.Others.removeGroupMember(user.Username);
                 else
                     _clients.Others.removeGroup(id);
