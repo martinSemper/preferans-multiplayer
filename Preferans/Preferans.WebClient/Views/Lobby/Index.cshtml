@@ -76,7 +76,7 @@
             $.connection.hub.start().done(function () {                
                 configureSendMessageEvent(lobby);
                 configureMakeMoveEvent(lobby);
-                configureCreateGameEvent(lobby);
+                configureCreateRoomEvent(lobby);
                 lobbyHub = lobby;
             });
         });

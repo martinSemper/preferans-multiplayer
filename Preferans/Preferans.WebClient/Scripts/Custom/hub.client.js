@@ -109,11 +109,11 @@ function configureMakeMoveEvent(lobby) {
     });
 }
 
-function configureCreateGameEvent(lobby) {
+function configureCreateRoomEvent(lobby) {
 
     $('#creategame').click(function () {
 
-        lobby.server.createGame();
+        lobby.server.createRoom();
     })
 }
 
