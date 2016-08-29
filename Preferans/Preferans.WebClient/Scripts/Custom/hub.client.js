@@ -47,7 +47,7 @@ function removePlayer(username) {
     $("#players").find('#' + encodedName).remove();
 }
 
-function removeGroup(groupId) {        
+function removeRoom(groupId) {        
 
     $("#rooms").find('#' + 'room-' + groupId).remove();
 }
@@ -87,7 +87,7 @@ function addRoomMember(group) {
     $("#rooms").append($roomElement);
 }
 
-function removeGroupMember(group) {
+function removeRoomMember(group) {
     
     var id = 'room-' + group.Id;
 

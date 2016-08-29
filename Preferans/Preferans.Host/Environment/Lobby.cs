@@ -38,7 +38,7 @@ namespace Preferans.Host.Environment
             var allUsers = _users.GetAllUsers();
             _clients.Caller.addExistingPlayers(_players.GetPlayers(allUsers.Select(u => u.Username)));
 
-            _clients.Caller.addExistingGroups(_groups.GetAllGroups());
+            _clients.Caller.addExistingRooms(_groups.GetAllGroups());
         }
 
         internal void RemoveUser(string connectionId)
@@ -61,9 +61,9 @@ namespace Preferans.Host.Environment
                 _groups.RemoveMember(user.Username);
 
                 if (_groups.Get(id) != null)
-                    _clients.Others.removeGroupMember(group);
+                    _clients.Others.removeRoomMember(group);
                 else
-                    _clients.Others.removeGroup(id);
+                    _clients.Others.removeRoom(id);
             }
         }
 
