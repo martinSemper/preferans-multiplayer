@@ -57,20 +57,8 @@ namespace Preferans.Host
         [AuthorizeHubMethodAccess]
         public void JoinRoom(string groupId)
         {
-            UserMapping users = new UserMapping();
-            User user = users.GetUser(Context.ConnectionId);
-
-            GroupMapping groups = new GroupMapping();
-
-            try
-            {
-                Group group = groups.AddMember(user.Username, groupId);                
-                Clients.All.addRoomMember(group);
-            }
-            catch(InvalidOperationException e)
-            {
-                Clients.Caller.displayErrorMessage(e.Message);
-            }
+            Lobby lobby = new Lobby(Clients);
+            lobby.AdRoomMember(groupId, Context.ConnectionId);
         }
 
         public override Task OnConnected()

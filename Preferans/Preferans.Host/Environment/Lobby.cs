@@ -61,9 +61,27 @@ namespace Preferans.Host.Environment
                 _groups.RemoveMember(user.Username);
 
                 if (_groups.Get(id) != null)
-                    _clients.Others.removeGroupMember(user.Username);
+                    _clients.Others.removeGroupMember(group);
                 else
                     _clients.Others.removeGroup(id);
+            }
+        }
+
+        internal void AdRoomMember(string groupId, string connectionId)
+        {
+            UserMapping users = new UserMapping();
+            User user = users.GetUser(connectionId);
+
+            GroupMapping groups = new GroupMapping();
+
+            try
+            {
+                Group group = groups.AddMember(user.Username, groupId);
+                _clients.All.addRoomMember(group);
+            }
+            catch (InvalidOperationException e)
+            {
+                _clients.Caller.displayErrorMessage(e.Message);
             }
         }
     }

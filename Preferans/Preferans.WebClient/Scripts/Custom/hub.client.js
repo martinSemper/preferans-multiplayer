@@ -49,7 +49,7 @@ function removePlayer(username) {
 
 function removeGroup(groupId) {        
 
-    $("#rooms").find('#' + 'game-' + groupId).remove();
+    $("#rooms").find('#' + 'room-' + groupId).remove();
 }
 
 function makeMove(username) {
@@ -77,12 +77,26 @@ function addExistingRooms(groups) {
 }
 
 function addRoomMember(group) {
+    
+    var id = 'room-' + group.Id;
 
-    alert('new member');
+    var $room = $('#' + id);
+
+    var $roomElement = createRoomElement(group);
+    $("#rooms").find($room).remove();
+    $("#rooms").append($roomElement);
 }
 
-function removeGroupMember(username) {
-    alert('player ' + username + ' exited the room.');
+function removeGroupMember(group) {
+    
+    var id = 'room-' + group.Id;
+
+    var $room = $('#' + id);
+
+    var $roomElement = createRoomElement(group);
+
+    $("#rooms").find($room).remove();
+    $("#rooms").append($roomElement);
 }
 
 
@@ -129,7 +143,7 @@ function createRoomElement(group) {
 
     var encodedName = $('<div />').text(group.Id).html();
 
-    var id = "game-" + encodedName;
+    var id = "room-" + encodedName;
 
     var $roomElement = $('<div id="' + id + '" class="row">' + '</div>');
     
@@ -159,7 +173,6 @@ function createPlayerSlot(player, groupId) {
     var $player = $(openingTag + color + content + closingTag);
 
     $player.click(function () {
-        alert('joining...');
         joinRoom(groupId);
     })
 
