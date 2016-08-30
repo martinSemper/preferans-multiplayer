@@ -74,10 +74,14 @@ function addExistingRooms(groups) {
         addRoom(value);
     });
 
+    function enterRoom(room) {
+
+
+    }
+
 }
 
 function addRoomMember(group) {
-    
     var id = 'room-' + group.Id;
 
     var $room = $('#' + id);
@@ -154,12 +158,14 @@ function createRoomElement(group) {
         $roomElement.append($player);                
     }
 
+    appendExitButton($roomElement);
+
     return $roomElement;
 }
 
 function createPlayerSlot(player, groupId) {
 
-    var openingTag = '<div class=col-sm-4 style="color:';
+    var openingTag = '<div class=col-sm-3 style="color:';
     var color = 'green">';
     var content = 'empty';
 
@@ -177,5 +183,17 @@ function createPlayerSlot(player, groupId) {
     })
 
     return $player;
+}
+
+function appendExitButton($element)
+{
+    var $container = $('<div class="col-sm-3"></div>');
+    var $button = $('<input type="submit" value="Exit"/>');
+    $button.click(function () {
+        exitRoom();
+    });
+
+    $container.append($button);
+    $element.append($container);
 }
 

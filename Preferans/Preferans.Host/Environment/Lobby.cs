@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.SignalR.Hubs;
+﻿using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 using Preferans.Host.DAL;
 using Preferans.Host.Models;
 using System;
@@ -67,21 +68,44 @@ namespace Preferans.Host.Environment
             }
         }
 
-        internal void AdRoomMember(string groupId, string connectionId)
+        internal async Task AdRoomMember(string groupId, string connectionId, IGroupManager groups)
         {
             UserMapping users = new UserMapping();
             User user = users.GetUser(connectionId);
 
-            GroupMapping groups = new GroupMapping();
+            GroupMapping rooms = new GroupMapping();
 
             try
             {
-                Group group = groups.AddMember(user.Username, groupId);
-                _clients.All.addRoomMember(group);
+                Group group = rooms.AddMember(user.Username, groupId);
+                await groups.Add(connectionId, groupId);
+                _clients.All.addRoomMember(group);                
             }
             catch (InvalidOperationException e)
             {
                 _clients.Caller.displayErrorMessage(e.Message);
+            }
+        }
+
+        
+        internal void CreateRoom(string connectionId, IGroupManager groups)
+        {
+            UserMapping users = new UserMapping();
+            User user = users.GetUser(connectionId);
+
+            GroupMapping rooms = new GroupMapping();
+
+            try
+            {
+                Group room = rooms.Create(user.Username);
+
+                groups.Add(connectionId, user.Username);
+                _clients.Caller.enterRoom(room);
+                _clients.All.addRoom(room);
+            }
+            catch(InvalidOperationException ioe)
+            {
+                _clients.Caller.displayErrorMessage(ioe.Message);
             }
         }
     }
