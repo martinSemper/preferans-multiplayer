@@ -88,7 +88,7 @@ namespace Preferans.Host.Environment
         }
 
         
-        internal void CreateRoom(string connectionId, IGroupManager groups)
+        internal async Task CreateRoom(string connectionId, IGroupManager groups)
         {
             UserMapping users = new UserMapping();
             User user = users.GetUser(connectionId);
@@ -99,9 +99,9 @@ namespace Preferans.Host.Environment
             {
                 Group room = rooms.Create(user.Username);
 
-                groups.Add(connectionId, user.Username);
+                await groups.Add(connectionId, user.Username);
                 _clients.Caller.enterRoom(room);
-                _clients.All.addRoom(room);
+                _clients.Others.addRoom(room);
             }
             catch(InvalidOperationException ioe)
             {

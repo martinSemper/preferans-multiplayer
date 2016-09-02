@@ -7,25 +7,24 @@
 
 <div class="container">
 
-    <div class="row">
+    <div id="messageRow" class="row">
         <ul id="errorList"></ul>
     </div>
 
-    <div class="row">
-        <div class="col-sm-3">
+    <div id="mainRow" class="row">
+        <div class="col-sm-4">
             <input type="text" id="message" />
             <input type="button" id="sendmessage" value="Send" />
-            <input type="button" id="makemove" value="Make a move" />
             <ul id="discussion"></ul>
         </div>       
 
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div class="container" id="rooms"></div>
             <input type="button" id="creategame" value="Create game" />
         </div>
                
 
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <div id="players" class="container"></div>
         </div>
     </div>
@@ -57,14 +56,14 @@
             lobby.client.addPlayer = addPlayer;
             lobby.client.removePlayer = removePlayer;
             lobby.client.addMessage = appendMessage;
-            lobby.client.displayErrorMessage = displayErrorMessage;
-            lobby.client.makeMove = makeMove;
+            lobby.client.displayErrorMessage = displayErrorMessage;            
             lobby.client.addExistingPlayers = addExistingPlayers;
             lobby.client.addRoom = addRoom;
             lobby.client.addExistingRooms = addExistingRooms;
             lobby.client.removeRoom = removeRoom;
             lobby.client.addRoomMember = addRoomMember;
             lobby.client.removeRoomMember = removeRoomMember;
+            lobby.client.enterRoom = enterRoom;
         
             // Get the user name and store it to prepend to messages.
             //$('#displayname').val(prompt('Enter your name:', ''));
@@ -75,7 +74,6 @@
             // Start the connection.
             $.connection.hub.start().done(function () {                
                 configureSendMessageEvent(lobby);
-                configureMakeMoveEvent(lobby);
                 configureCreateRoomEvent(lobby);
                 lobbyHub = lobby;
             });

@@ -47,21 +47,14 @@ function removePlayer(username) {
     $("#players").find('#' + encodedName).remove();
 }
 
-function removeRoom(groupId) {        
+function removeRoom(groupId) {
 
     $("#rooms").find('#' + 'room-' + groupId).remove();
 }
 
-function makeMove(username) {
-
-    var encodedName = $('<div />').text(username).html();
-
-    $('#discussion').append('<li><strong>' + encodedName
-        + '</strong>&nbsp;&nbsp;' + 'made a move' + '</li>');
-}
 
 function addRoom(group) {
-
+    alert('adding...');
     var $roomElement = createRoomElement(group);
 
     $("#rooms").append($roomElement);
@@ -73,12 +66,21 @@ function addExistingRooms(groups) {
 
         addRoom(value);
     });
+}
 
-    function enterRoom(room) {
+function enterRoom(room) {
+    alert('entering...');
+    var $selectedRoom = createSelectedRoomElement(room);
 
+    var $mainRow = $("#mainRow");
 
-    }
+    var $children = $mainRow.children();
 
+    var $beforeElement = $($children[0]);
+
+    $beforeElement.after($selectedRoom);
+
+    setRowWidth($mainRow, 4);
 }
 
 function addRoomMember(group) {
@@ -92,7 +94,7 @@ function addRoomMember(group) {
 }
 
 function removeRoomMember(group) {
-    
+
     var id = 'room-' + group.Id;
 
     var $room = $('#' + id);
@@ -120,12 +122,6 @@ function configureSendMessageEvent(lobby) {
     });
 }
 
-function configureMakeMoveEvent(lobby) {
-    $("#makemove").click(function () {
-        lobby.server.makeMove();
-        $('#message').val('').focus();
-    });
-}
 
 function configureCreateRoomEvent(lobby) {
 
@@ -150,12 +146,12 @@ function createRoomElement(group) {
     var id = "room-" + encodedName;
 
     var $roomElement = $('<div id="' + id + '" class="row">' + '</div>');
-    
-    for (i = 0; i < 3; i++) {        
+
+    for (i = 0; i < 3; i++) {
 
         var $player = createPlayerSlot(group.Members[i], group.Id);
 
-        $roomElement.append($player);                
+        $roomElement.append($player);
     }
 
     appendExitButton($roomElement);
@@ -185,8 +181,7 @@ function createPlayerSlot(player, groupId) {
     return $player;
 }
 
-function appendExitButton($element)
-{
+function appendExitButton($element) {
     var $container = $('<div class="col-sm-3"></div>');
     var $button = $('<input type="submit" value="Exit"/>');
     $button.click(function () {
@@ -197,3 +192,18 @@ function appendExitButton($element)
     $element.append($container);
 }
 
+function createSelectedRoomElement(room) {
+
+    var $room = createRoomElement(room);
+
+    return $room;
+}
+
+function setRowWidth($row, numberOfColumns) {
+
+    var colParameter = 12 / numberOfColumns;
+
+    var cssClass = 'col-sm-' + colParameter;
+
+    $row.children().attr().removeClass().addClass(cssClass);
+}

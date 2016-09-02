@@ -22,16 +22,7 @@ namespace Preferans.Host
             User user = users.GetUser(Context.ConnectionId);
 
             this.Clients.All.addMessage(user.Username, message);
-        }
-
-        [AuthorizeHubMethodAccess]
-        public void MakeMove()
-        {
-            UserMapping users = new UserMapping();
-            User user = users.GetUser(Context.ConnectionId);
-
-            this.Clients.All.makeMove(user.Username);
-        }    
+        }   
     
         [AuthorizeHubMethodAccess]
         public void CreateRoom()
